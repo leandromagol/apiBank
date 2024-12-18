@@ -1,0 +1,26 @@
+
+version: '3.7'
+
+services:
+  app:
+    build: 
+          context: ..
+          dockerfile: docker/Dockerfile
+    container_name: slim_app
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    volumes:
+      - ..:/var/www/html
+    command: bash -c "cd public && php -S 0.0.0.0:80"
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
