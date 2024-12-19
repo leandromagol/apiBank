@@ -33,7 +33,7 @@ class AccountRepository
 
   public function updateBalance(int $accountNumber, float $balance): void
   {
-    $stmt = $this->pdo->prepare("UPDATE accounts SET balance = :saldo WHERE account_number = :account_number");
+    $stmt = $this->pdo->prepare("UPDATE accounts SET balance = :balance WHERE account_number = :account_number");
     $stmt->execute([':balance' => $balance, ':account_number' => $accountNumber]);
   }
 }

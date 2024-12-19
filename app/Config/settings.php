@@ -3,6 +3,7 @@
 namespace App\Config;
 
 use App\Repository\AccountRepository;
+use App\Repository\TransactionRepository;
 use DI\Container;
 use PDO;
 
@@ -24,7 +25,9 @@ return (function () {
   $container->set(AccountRepository::class, function ($c) {
     return new AccountRepository($c->get('db'));
   });
-
+  $container->set(TransactionRepository::class, function ($c) {
+    return new TransactionRepository($c->get('db'));
+  });
 
   return $container;
 })();

@@ -19,7 +19,6 @@ test('create new account successfully', function () {
   $this->accountRepository->shouldReceive('create')->with($accountNumber, $balance)->once();
 
   $account = $this->accountService->createAccount($accountNumber, $balance);
-  var_dump($account);
 
   expect($account)->toBeInstanceOf(Account::class);
   expect($account->getBalance())->toBe($balance);
