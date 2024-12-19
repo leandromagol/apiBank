@@ -28,28 +28,27 @@ If the available balance is not sufficient (considering the fee), the transactio
 ## Project Structure
 
 ```mermaid
-graph TD;
-    A[project]-->B[app];
-    A-->C[public];
-    A-->D[tests];
-    A-->E[docker];
-    A-->F[composer.json];
-    A-->G[composer.lock];
-    A-->H[phpunit.xml];
+sequenceDiagram
+    participant Client
+    participant SlimApp as Slim Application
+    participant Controller
+    participant Service
+    participant Repository
+    participant MySQL as MySQL Database
 
-    B-->I[Controller];
-    B-->J[Domain];
-    B-->K[Repository];
-    B-->L[Config];
-    B-->M[bootstrap.php];
+    Client->>SlimApp: HTTP Request (POST /account, GET /account, POST /transaction)
+    SlimApp->>Controller: Route to Controller based on HTTP Method and Path
+    Controller->>Service: Call corresponding Service method (e.g. createAccount, createTransaction)
+    
+    Service->>Repository: Fetch or update data (e.g. findAccount, createAccount, updateBalance)
+    Repository->>MySQL: Execute SQL Query (SELECT, INSERT, UPDATE)
+    MySQL-->>Repository: Return query results
+    Repository-->>Service: Return Entities or confirm operations
+    Service-->>Controller: Return processed result (or throw exceptions on errors)
 
-    K-->N[Entities];
-    K-->O[Services];
-    K-->P[Exceptions];
+    Controller->>SlimApp: Return JSON response with HTTP status code
+    SlimApp->>Client: HTTP Response (JSON body with account/transaction info or error)
 
-    E-->Q[Dockerfile];
-    E-->R[docker-compose.yml];
-    E-->S[init.sql];
 ```
 
 
