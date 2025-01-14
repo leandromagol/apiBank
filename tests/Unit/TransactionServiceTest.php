@@ -20,24 +20,24 @@ test('Account inexisting transaction', function () {
 })->throws(NotFoundException::class, 'Account not found');
 
 test('insufficient founds transaction', function () {
-  $conta = new Account(123, 50.00);
-  $this->accountService->shouldReceive('findAccount')->andReturn($conta);
+  $account = new Account(123, 50.00);
+  $this->accountService->shouldReceive('findAccount')->andReturn($account);
   $this->transactionService->createTransaction(123, 100.00, 'D');
 })->throws(NotFoundException::class, 'insufficient balance');
 
 test('invalid payment method', function () {
-  $conta = new Account(123, 200.00);
-  $this->accountService->shouldReceive('findAccount')->andReturn($conta);
+  $account = new Account(123, 200.00);
+  $this->accountService->shouldReceive('findAccount')->andReturn($account);
 
   $this->transactionService->createTransaction(123, 50.00, 'X');
 })->throws(DomainException::class, 'Invalid Payment Method');
 
 test('debit transaction successful', function () {
-  $conta = new Account(123, 200.00);
-  $this->accountService->shouldReceive('findAccount')->andReturn($conta);
+  $account = new Account(123, 200.00);
+  $this->accountService->shouldReceive('findAccount')->andReturn($account);
 
   $this->accountService->shouldReceive('updateBalance')
-    ->with($conta, 97.00)
+    ->with($account, 97.00)
     ->once();
 
   $this->transactionRepository->shouldReceive('create')

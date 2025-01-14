@@ -24,10 +24,10 @@ class AccountController
     $balance = $data['balance'] ?? null;
 
     try {
-      $conta = $this->accountService->createAccount((int)$accountNumber, (float)$balance);
+      $account = $this->accountService->createAccount((int)$accountNumber, (float)$balance);
       $response->getBody()->write(json_encode([
-        'account_number' => $conta->getAccountNumber(),
-        'balance' => $conta->getBalance()
+        'account_number' => $account->getAccountNumber(),
+        'balance' => $account->getBalance()
       ]));
       return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     } catch (DomainException $e) {
@@ -42,10 +42,10 @@ class AccountController
     $accountNumber = (int)($params['account_number'] ?? 0);
 
     try {
-      $conta = $this->accountService->findAccount($accountNumber);
+      $account = $this->accountService->findAccount($accountNumber);
       $response->getBody()->write(json_encode([
-        'account_number' => $conta->getAccountNumber(),
-        'balance' => $conta->getBalance()
+        'account_number' => $account->getAccountNumber(),
+        'balance' => $account->getBalance()
       ]));
       return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     } catch (NotFoundException $e) {
